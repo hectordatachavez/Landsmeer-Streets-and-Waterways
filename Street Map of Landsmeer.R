@@ -10,7 +10,6 @@ library(sf)
 
 # Display all features that OpenStreetMap saves
 available_features()
-
 # Interest for this map is on: "highway", "natural" and "waterway" features
 
 # Print  cooordinates of our city (nwrite the city and the country as a string)
@@ -22,17 +21,16 @@ getbb("Landsmeer Nederland")
 # Data extraction ------------
 
 # Store the streets in the coordinates of the city in an object
-big_streets <- getbb("Landsmeer Nederland")%>%
-    opq()%>%
+big_streets <- getbb("Landsmeer Nederland") %>%
+    opq() %>%
     add_osm_feature(key = "highway", 
                     value = c("motorway", "primary", 
                               "secondary", "tertiary")) %>%
     osmdata_sf()
 
-
 # Extract small streets from city coordinates
-small_streets <- getbb("Landsmeer Netherlands")%>%
-    opq()%>%
+small_streets <- getbb("Landsmeer Netherlands") %>%
+    opq() %>%
     add_osm_feature(key = "highway", 
                     value = c("residential", "living_street",
                               "unclassified",
@@ -43,7 +41,8 @@ small_streets <- getbb("Landsmeer Netherlands")%>%
 # Extract river waterways from city coordinates
 river <- getbb("Landsmeer Netherlands") %>%
     opq()%>%
-    add_osm_feature(key = "waterway", value = c("river","canal","ditch","riverbank")) %>%
+    add_osm_feature(key = "waterway", 
+                    value = c("river","canal","ditch","riverbank")) %>%
     osmdata_sf()
 
 water <- getbb("Landsmeer Netherlands") %>%
@@ -84,13 +83,7 @@ ggplot() +
         plot.background = element_rect(fill = "#282828")
     )
 
-    # theme(plot.background = element_rect(fill = "#282828"),
-    #       axis.title.x = element_text(size = 20, family = "Helvetica", 
-    #                                 #face="bold", 
-    #                                 hjust=.5, color="#ffbe7f") ) +
-    # labs(xlab = "LANDSMEER") 
 
 
 # Export map ------------
-
-ggsave("map.png", width = 6, height = 6)
+ggsave("./output/map.png", width = 6, height = 6)
